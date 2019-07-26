@@ -18,7 +18,7 @@ stages:
     - travix
 
   integration-test:
-    image: eu.gcr.io/travix-com/${ESTAFETTE_LABEL_CONTAINER}:${ESTAFETTE_BUILD_VERSION}
+    image: travix/${ESTAFETTE_LABEL_CONTAINER}:${ESTAFETTE_BUILD_VERSION}
 
   push-to-docker-registry:
     image: extensions/docker:stable
