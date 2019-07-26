@@ -1,0 +1,80 @@
+# https://estafette.io/usage/manifest/
+labels:
+  container: gcloud-onsteroids
+  team: swat
+  language: docker
+
+version:
+  semver:
+    major: 0
+    minor: 0
+
+stages:
+  bake:
+    image: extensions/docker:stable
+    action: build
+    container: ${ESTAFETTE_LABEL_CONTAINER}
+    repositories:
+    - eu.gcr.io/travix-com
+
+  integration-test:
+    image: eu.gcr.io/travix-com/${ESTAFETTE_LABEL_CONTAINER}:${ESTAFETTE_BUILD_VERSION}
+
+  push-to-docker-registry:
+    image: extensions/docker:stable
+    action: push
+    container: ${ESTAFETTE_LABEL_CONTAINER}
+    repositories:
+    - eu.gcr.io/travix-com
+    tags:
+    - dev
+
+  slack-notify:
+    image: extensions/slack-build-status:stable
+    workspace: travix
+    channels:
+    - '#builds-${ESTAFETTE_LABEL_TEAM}'
+    when:
+      status == 'failed'
+
+releases:
+  beta:
+    stages:
+      tag-container-image:
+        image: extensions/docker:stable
+        action: tag
+        container: ${ESTAFETTE_LABEL_CONTAINER}
+        repositories:
+        - eu.gcr.io/travix-com
+        tags:
+        - beta
+
+      slack-notify:
+        image: extensions/slack-build-status:stable
+        workspace: estafette
+        channels:
+        - '#build-status'
+        when:
+          status == 'succeeded' ||
+          status == 'failed'
+
+  stable:
+    stages:
+      tag-container-image:
+        image: extensions/docker:stable
+        action: tag
+        container: ${ESTAFETTE_LABEL_CONTAINER}
+        repositories:
+        - eu.gcr.io/travix-com
+        tags:
+        - stable
+        - latest
+
+      slack-notify:
+        image: extensions/slack-build-status:stable
+        workspace: estafette
+        channels:
+        - '#build-status'
+        when:
+          status == 'succeeded' ||
+          status == 'failed'
