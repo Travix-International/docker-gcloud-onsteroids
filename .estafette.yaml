@@ -15,7 +15,7 @@ stages:
     action: build
     container: ${ESTAFETTE_LABEL_CONTAINER}
     repositories:
-    - eu.gcr.io/travix-com
+    - travix
 
   integration-test:
     image: eu.gcr.io/travix-com/${ESTAFETTE_LABEL_CONTAINER}:${ESTAFETTE_BUILD_VERSION}
@@ -25,7 +25,7 @@ stages:
     action: push
     container: ${ESTAFETTE_LABEL_CONTAINER}
     repositories:
-    - eu.gcr.io/travix-com
+    - travix
     tags:
     - dev
 
@@ -45,7 +45,7 @@ releases:
         action: tag
         container: ${ESTAFETTE_LABEL_CONTAINER}
         repositories:
-        - eu.gcr.io/travix-com
+        - travix
         tags:
         - beta
 
@@ -65,7 +65,7 @@ releases:
         action: tag
         container: ${ESTAFETTE_LABEL_CONTAINER}
         repositories:
-        - eu.gcr.io/travix-com
+        - travix
         tags:
         - stable
         - latest
