@@ -1,4 +1,4 @@
-FROM docker:19.03-dind
+FROM docker:19.03
 ARG CLOUD_SDK_VERSION=255.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 
@@ -19,4 +19,5 @@ RUN apk --no-cache add \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version
+ENV PATH /dod:$PATH
 VOLUME ["/root/.config"]

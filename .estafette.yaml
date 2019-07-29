@@ -19,8 +19,6 @@ stages:
 
   integration-test:
     image: travix/${ESTAFETTE_LABEL_CONTAINER}:${ESTAFETTE_BUILD_VERSION}
-    env:
-      DOCKER_TLS_CERTDIR: ""
 
   push-to-docker-registry:
     image: extensions/docker:stable
